@@ -1,0 +1,18 @@
+{
+  "ticket_id": "DJANGO-RAW-SQL-001",
+  "category": "Python",
+  "title": "Django Raw SQL Query Logging",
+  "problem_description": "The developer needs to view the raw SQL queries that Django is running while performing a query. The goal is to understand and optimize the database interactions. The current setup does not provide a straightforward way to log or display these queries.",
+  "starting_state": {
+    "files": {
+      "models.py": "from django.db import models\n\nclass MyModel(models.Model):\n    name = models.CharField(max_length=100)"
+    },
+    "db_schema": null
+  },
+  "winning_condition_hint": "Use django.db.connection.queries to retrieve the list of SQL queries or access the query attribute of a QuerySet instance",
+  "_source": {
+    "url": "https://stackoverflow.com/questions/1074212/how-can-i-see-the-raw-sql-queries-django-is-running",
+    "score": 477,
+    "generated_at": "2026-06-17T05:20:53Z"
+  }
+}

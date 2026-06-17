@@ -1,0 +1,18 @@
+{
+  "ticket_id": "ba8e2d6f-4c1c-4e2f-8e3c-4d1c4e2f8e3c",
+  "category": "Unix",
+  "title": "Bash Script Error: Looping Through File Content",
+  "problem_description": "The provided Bash script is attempting to iterate through each line of a text file, but it's encountering a syntax error. The script is trying to read the content of peptides.txt, but it's not working as expected. The goal is to loop through each line of the file and perform some operations.",
+  "starting_state": {
+    "files": {
+      "runPep.sh": "echo \"Start!\"\nfor p in (peptides.txt)\ndo\n    echo \"${p}\"\ndone\n"
+    },
+    "db_schema": null
+  },
+  "winning_condition_hint": "Use a while loop with the read command to iterate through the file content, such as: while read p; do echo \"$p\"; done < peptides.txt",
+  "_source": {
+    "url": "https://stackoverflow.com/questions/1521462/looping-through-the-content-of-a-file-in-bash",
+    "score": 2205,
+    "generated_at": "2026-06-17T05:20:50Z"
+  }
+}

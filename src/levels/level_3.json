@@ -1,0 +1,18 @@
+{
+  "ticket_id": "DJANGO_MIGRATION_ERROR_001",
+  "category": "Python",
+  "title": "Django Migration Error: Cannot Alter Table Due to Pending Trigger Events",
+  "problem_description": "The user is trying to remove null=True from a TextField in a Django model, but is encountering an IntegrityError due to null values in the column. After attempting to update the null values, a DatabaseError occurs due to pending trigger events. The user needs to resolve this issue to successfully migrate their database schema.",
+  "starting_state": {
+    "files": {
+      "models.py": "from django.db import models\nclass EmailSender(models.Model):\n    footer = models.TextField(null=True, blank=True)"
+    },
+    "db_schema": null
+  },
+  "winning_condition_hint": "Split the data migration and schema migration into two separate transactions",
+  "_source": {
+    "url": "https://stackoverflow.com/questions/12838111/django-db-migrations-cannot-alter-table-because-it-has-pending-trigger-events",
+    "score": 200,
+    "generated_at": "2026-06-17T05:20:56Z"
+  }
+}

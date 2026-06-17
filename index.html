@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StackTrace.run // Junior DevOps Simulator</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       VIEW 1 — Auth gate (login / sign-up). Shown first, always.
+       ============================================================ -->
+  <section id="auth-view">
+    <div class="auth-brand">
+      <span class="logo">▆</span> StackTrace<span class="accent">.run</span>
+      <div class="auth-tagline">junior devops incident simulator</div>
+    </div>
+    <div id="auth-window">
+      <h2 class="auth-title">Sign in to continue</h2>
+      <p class="auth-sub">Track your rank, streak &amp; badges across sessions.</p>
+      <div id="auth-tabs">
+        <button data-tab="login" class="active">Log in</button>
+        <button data-tab="signup">Sign up</button>
+      </div>
+      <div id="auth-error" class="hidden"></div>
+      <input id="auth-username" type="text" placeholder="username" autocomplete="username" />
+      <input id="auth-password" type="password" placeholder="password (min 8 chars)" autocomplete="current-password" />
+      <input id="auth-email" type="email" placeholder="email (optional)" class="hidden" autocomplete="email" />
+      <button id="auth-submit" class="auth-primary">Log in</button>
+      <div class="auth-divider"><span>or</span></div>
+      <button id="auth-github" class="auth-github">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        Continue with GitHub
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       VIEW 2 — Dashboard. Performance + levels + "start playing".
+       ============================================================ -->
+  <section id="dashboard-view" class="hidden">
+    <header class="dash-topbar">
+      <div class="brand">
+        <span class="logo">▆</span> StackTrace<span class="accent">.run</span>
+      </div>
+      <div class="dash-actions">
+        <a id="dash-share" class="chip-link" target="_blank" rel="noopener">public profile ↗</a>
+        <button id="dash-logout" class="chip-link">log out</button>
+      </div>
+    </header>
+
+    <main class="dash-body">
+      <h1 class="dash-greeting">Welcome back, <span id="dash-username">player</span> 👋</h1>
+      <p class="dash-subgreet">Your on-call performance so far.</p>
+
+      <div class="dash-cards">
+        <div class="dash-card"><span class="dash-card-val" id="dash-elo">1200</span><span class="dash-card-label">ELO RANKING</span></div>
+        <div class="dash-card"><span class="dash-card-val" id="dash-solved">0</span><span class="dash-card-label">INCIDENTS SOLVED</span></div>
+        <div class="dash-card"><span class="dash-card-val" id="dash-streak">0</span><span class="dash-card-label">CURRENT STREAK</span></div>
+        <div class="dash-card"><span class="dash-card-val" id="dash-badges">—</span><span class="dash-card-label">BADGES</span></div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-panel">
+          <div class="dash-panel-head">▶ START A SHIFT</div>
+          <p class="dash-panel-note">Pick a queue and resolve tickets before system uptime hits zero.</p>
+          <div class="mode-toggle">
+            <label><input type="radio" name="mode" value="curated" checked /> <span>Curated (3 incidents)</span></label>
+            <label><input type="radio" name="mode" value="generated" /> <span>Stack Overflow sourced</span></label>
+          </div>
+          <button id="play-btn" class="play-btn">Start Playing →</button>
+        </div>
+
+        <div class="dash-panel">
+          <div class="dash-panel-head">📨 FEATURED INCIDENTS</div>
+          <ul id="dash-levels" class="dash-levels"></ul>
+        </div>
+
+        <div class="dash-panel">
+          <div class="dash-panel-head">🏆 LEADERBOARD</div>
+          <ol id="dash-leaderboard" class="dash-leaderboard"></ol>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- ============================================================
+       VIEW 3 — The game (ticket feed + mock terminal).
+       ============================================================ -->
+  <section id="game-view" class="hidden">
+    <header id="topbar">
+      <div class="brand">
+        <button id="back-to-dash" class="back-btn" title="Back to dashboard">‹</button>
+        <span class="logo">▆</span> StackTrace<span class="accent">.run</span>
+        <span class="subtitle">junior devops console</span>
+      </div>
+      <div class="status">
+        <div class="stat">
+          <span class="stat-label">LEVEL</span>
+          <span class="stat-value" id="level-indicator">1 / 3</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">SCORE</span>
+          <span class="stat-value" id="score-indicator">0</span>
+        </div>
+        <div class="stat uptime">
+          <span class="stat-label">SYSTEM UPTIME</span>
+          <span class="stat-value" id="timer">05:00</span>
+        </div>
+      </div>
+      <div id="auth-slot"></div>
+    </header>
+
+    <main id="workspace">
+      <section id="ticket-pane">
+        <div class="pane-header">📨 TICKET FEED</div>
+        <div id="ticket-feed"></div>
+      </section>
+
+      <section id="terminal-pane">
+        <div class="pane-header">
+          <span id="terminal-title">root@prod-01: ~</span>
+          <span class="pane-hint">type <code>help</code> to begin</span>
+        </div>
+        <div id="terminal-output"></div>
+        <div id="terminal-input-line">
+          <span id="prompt">root@prod-01:~$</span>
+          <input id="terminal-input" type="text" autocomplete="off" spellcheck="false" />
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <!-- ===== Nano editor modal ===== -->
+  <div id="editor-overlay" class="hidden">
+    <div id="editor-window">
+      <div id="editor-titlebar">
+        <span>GNU nano</span>
+        <span id="editor-filename">untitled</span>
+      </div>
+      <textarea id="editor-textarea" spellcheck="false"></textarea>
+      <div id="editor-footer">
+        <button id="editor-save">^O Save</button>
+        <button id="editor-exit">^X Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Result modal (success / failure) ===== -->
+  <div id="result-overlay" class="hidden">
+    <div id="result-window">
+      <div id="result-icon">✔</div>
+      <h2 id="result-title">Level Solved!</h2>
+      <p id="result-message"></p>
+      <button id="result-button">Next Ticket →</button>
+    </div>
+  </div>
+
+  <!-- sql.js (SQLite compiled to WebAssembly) — deferred so it never blocks first paint -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+
+  <!-- Modules (order matters) -->
+  <script src="js/filesystem.js"></script>
+  <script src="js/levels.js"></script>
+  <script src="js/generated-levels.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/terminal.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

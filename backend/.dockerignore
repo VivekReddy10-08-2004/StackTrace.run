@@ -1,0 +1,12 @@
+# Keep the backend image small and free of secrets/local state.
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+*.db
+*.sqlite
+*.sqlite3
+.env
+README.md
+Dockerfile
+.dockerignore

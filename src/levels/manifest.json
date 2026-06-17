@@ -1,0 +1,23 @@
+{
+  "levels": [
+    {
+      "file": "level_1.json",
+      "ticket_id": "ba8e2d6f-4c1c-4e2f-8e3c-4d1c4e2f8e3c",
+      "category": "Unix",
+      "title": "Bash Script Error: Looping Through File Content"
+    },
+    {
+      "file": "level_2.json",
+      "ticket_id": "DJANGO-RAW-SQL-001",
+      "category": "Python",
+      "title": "Django Raw SQL Query Logging"
+    },
+    {
+      "file": "level_3.json",
+      "ticket_id": "DJANGO_MIGRATION_ERROR_001",
+      "category": "Python",
+      "title": "Django Migration Error: Cannot Alter Table Due to Pending Trigger Events"
+    }
+  ],
+  "count": 3
+}

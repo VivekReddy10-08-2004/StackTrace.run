@@ -1,0 +1,11 @@
+Flask>=3.0
+flask-cors>=4.0
+PyJWT>=2.8
+argon2-cffi>=23.1
+httpx>=0.27
+python-dotenv>=1.0
+# Turso/libSQL driver (pure-Python HTTP client; used when DATABASE_URL is set).
+# Pure-Python so it installs where the Rust `libsql-experimental` has no wheels.
+libsql-client>=0.3
+# Production WSGI server (used in the container; local dev uses Flask's dev server).
+waitress>=3.0

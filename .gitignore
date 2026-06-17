@@ -1,0 +1,28 @@
+# Secrets — never commit API keys
+project.env
+.env
+*.key
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Backend local state + seeded database
+backend/.env
+*.db
+*.sqlite
+*.sqlite3
+
+# Documentation — ignore all markdown except the root README
+*.md
+*.MD
+!/README.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+.claude/
