@@ -1,5 +1,10 @@
 # StackTrace.run
 
+---
+title: StackTrace.run
+sdk: docker
+app_port: 8000
+---
 > A browser-based DevOps incident simulator. Play a junior on-call engineer fixing broken servers, scripts, and databases inside a fake terminal — earn an Elo rank, streaks, and badges, and share a live profile card.
 
 ![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB)
