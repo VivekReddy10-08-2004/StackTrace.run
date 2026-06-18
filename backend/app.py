@@ -42,6 +42,29 @@ def create_app() -> Flask:
             "github_oauth": bool(settings.GITHUB_CLIENT_ID),
         })
 
+    @app.get("/")
+    def index():
+        # Landing page so the Space root isn't a bare 404. This image is the
+        # API engine; the playable frontend is hosted separately.
+        return (
+            """<!doctype html><html><head><meta charset="utf-8">
+            <title>StackTrace.run — API Engine</title>
+            <style>body{background:#0c0f14;color:#d6dbe2;font-family:system-ui,sans-serif;
+            display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0}
+            .c{max-width:560px;padding:32px}h1{color:#5a9d78;margin:0 0 8px}
+            code{background:#191e26;padding:2px 6px;border-radius:4px}a{color:#6f97c0}</style></head>
+            <body><div class="c"><h1>StackTrace.run — API Engine</h1>
+            <p>This is the backend API for the StackTrace.run DevOps incident simulator.
+            The playable frontend is hosted separately.</p>
+            <p>Health: <a href="/api/health">/api/health</a> ·
+            Leaderboard: <a href="/api/leaderboard">/api/leaderboard</a></p>
+            <p style="color:#8a93a0;font-size:13px">POST <code>/api/auth/signup</code>,
+            <code>/api/auth/login</code>, <code>/api/profile/solve</code> … see the repo README.</p>
+            </div></body></html>""",
+            200,
+            {"Content-Type": "text/html"},
+        )
+
     return app
 
 
