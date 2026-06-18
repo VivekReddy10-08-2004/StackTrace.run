@@ -9,7 +9,7 @@
 (function () {
   'use strict';
 
-  const API_BASE = "/_/backend";
+  const API_BASE = "";
 
   const TOKEN_KEY = 'stacktrace_token';
 
