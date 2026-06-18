@@ -9,8 +9,7 @@
 (function () {
   'use strict';
 
-  const API_BASE = "https://vivekreddy04/StackTrace.run.hf.space";
-;
+  const API_BASE = "https://vivekreddy04-StackTrace.run.hf.space";
   const TOKEN_KEY = 'stacktrace_token';
 
   const state = { token: null, user: null, profile: null };
