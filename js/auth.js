@@ -9,7 +9,7 @@
 (function () {
   'use strict';
 
-  const API_BASE = "";
+  const API_BASE = window.STACKTRACE_API_BASE || "";
 
   const TOKEN_KEY = 'stacktrace_token';
 

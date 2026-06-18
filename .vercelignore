@@ -1,0 +1,14 @@
+# Vercel deploys ONLY the static frontend (index.html, css/, js/, src/).
+# The backend lives on Hugging Face Spaces; Docker/compose are irrelevant here
+# and were causing Vercel's build to fail.
+backend/
+api/
+package.json
+generate_level.py
+requirements.txt
+docker-compose.yml
+Dockerfile
+.dockerignore
+project.env
+.venv/
+*.md
