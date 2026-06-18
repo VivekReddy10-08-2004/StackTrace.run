@@ -13,7 +13,7 @@ services:
       context: ./backend
     image: stacktrace-backend
     ports:
-      - "8000:8000"
+      - "8000:7860"
     env_file:
       - ./backend/.env
       - ./project.env

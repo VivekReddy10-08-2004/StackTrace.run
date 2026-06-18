@@ -1,9 +1,10 @@
 # StackTrace.run
 
 ---
-title: StackTrace.run
+title: StackTrace API Engine
 sdk: docker
-app_port: 8000
+app_port: 7860
+---
 ---
 > A browser-based DevOps incident simulator. Play a junior on-call engineer fixing broken servers, scripts, and databases inside a fake terminal — earn an Elo rank, streaks, and badges, and share a live profile card.
 

@@ -1,9 +1,6 @@
 # ── StackTrace.run backend ─────────────────────────────────────────────
-# Pinned to Python 3.12 so every dependency has a prebuilt wheel (the Turso
-# drivers have no wheels on 3.14). Build context is the backend/ directory.
-#
-#   docker build -t stacktrace-backend ./backend
-#   docker run --rm -p 8000:8000 --env-file ./backend/.env stacktrace-backend
+# Pinned to Python 3.12 so every dependency has a prebuilt wheel.
+# Compatible with both local Docker Compose and Hugging Face Spaces.
 # ────────────────────────────────────────────────────────────────────────
 FROM python:3.12-slim
 
@@ -23,11 +20,12 @@ COPY . .
 RUN useradd --create-home appuser && chown -R appuser /app
 USER appuser
 
-EXPOSE 8000
+# Expose 7860 to match Hugging Face's natural ingress default
+EXPOSE 7860
 
-# Liveness probe against the health endpoint.
+# Updated liveness probe targetting the new internal container port
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD python -c "import urllib.request,sys; sys.exit(0) if urllib.request.urlopen('http://127.0.0.1:8000/api/health').status==200 else sys.exit(1)"
+  CMD python -c "import urllib.request,sys; sys.exit(0) if urllib.request.urlopen('http://127.0.0.1:7860/api/health').status==200 else sys.exit(1)"
 
-# Production WSGI server (not Flask's dev server). Serves the `app` object in app.py.
-CMD ["waitress-serve", "--host=0.0.0.0", "--port=8000", "app:app"]
+# Run Waitress on port 7860.
+CMD ["waitress-serve", "--host=0.0.0.0", "--port=7860", "app:app"]
