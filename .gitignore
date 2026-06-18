@@ -20,6 +20,7 @@ backend/.env
 *.md
 *.MD
 !/README.md
+!backend/README.md
 
 # OS
 .DS_Store
