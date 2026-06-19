@@ -23,6 +23,7 @@ for _stream in (sys.stdout, sys.stderr):
 import db
 import users
 from auth import hash_password
+from config import settings
 
 # (username, email, ranking, tickets_solved, streak, badges)
 DEMO_PLAYERS = [
@@ -65,6 +66,11 @@ def seed():
 
 def main(argv=None):
     argv = argv if argv is not None else sys.argv[1:]
+    # Guard: don't pollute a production (Turso) database with demo data by accident.
+    if settings.using_turso and "--force" not in argv:
+        print("Refusing to seed a Turso (production) database.")
+        print("Demo data is meant for local dev. Re-run with --force to override.")
+        return
     backend = db.init_db()
     print(f"Seeding database ({backend})…")
     if "--reset" in argv:

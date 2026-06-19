@@ -90,6 +90,18 @@
     catch { return []; }
   }
 
+  // --- admin ---
+  const isAdmin = () => !!(state.user && state.user.is_admin);
+
+  async function adminListUsers() {
+    return (await api('/api/admin/users', { auth: true })).users || [];
+  }
+
+  async function adminDeleteUser(username) {
+    return api('/api/admin/users/' + encodeURIComponent(username),
+               { method: 'DELETE', auth: true });
+  }
+
   const isAuthed = () => !!state.token;
   const currentUser = () => state.user;
   const getProfile = () => state.profile;
@@ -225,6 +237,7 @@
   window.Auth = {
     init, onChange, login, signup, logout, fetchMe, recordSolve, fetchLeaderboard,
     isAuthed, currentUser, getProfile, parseBadges, badgeString, resetForm, API_BASE,
+    isAdmin, adminListUsers, adminDeleteUser,
   };
 
   if (document.readyState === 'loading') {

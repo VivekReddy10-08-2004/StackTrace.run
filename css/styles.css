@@ -548,6 +548,24 @@ body {
 .dash-card-val { letter-spacing: -0.01em; }
 /* calmer brand lockup now that it's sans, not a mono logotype */
 .brand, .dash-topbar .brand, .auth-brand { letter-spacing: .2px; }
+
+/* ===== Admin panel ===== */
+.dash-admin { margin-top: 16px; }
+.admin-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.admin-row:last-child { border-bottom: none; }
+.admin-name { color: var(--text); font-weight: 600; min-width: 160px; }
+.admin-meta { color: var(--text-dim); font-size: 12px; flex: 1; }
+.admin-you { color: var(--green); font-size: 11px; }
+.admin-del {
+  background: rgba(196,108,97,.14); color: var(--red);
+  border: 1px solid rgba(196,108,97,.4); border-radius: 5px;
+  padding: 5px 12px; font-family: var(--sans); font-size: 12px; cursor: pointer;
+}
+.admin-del:hover { background: rgba(196,108,97,.25); }
+.admin-del:disabled { opacity: .5; cursor: default; }
 /* form controls + action buttons use the UI sans (terminal/editor keep mono) */
 .auth-btn, .auth-primary, .auth-github, #auth-tabs button, #auth-window input,
 .chip-link, #result-button, .play-btn, .mode-toggle, .back-btn {

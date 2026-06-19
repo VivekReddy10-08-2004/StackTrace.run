@@ -74,3 +74,23 @@ def login_required(view):
         return view(*args, **kwargs)
 
     return wrapper
+
+
+def is_admin(username: str | None) -> bool:
+    return bool(username) and username in settings.ADMIN_USERNAMES
+
+
+def admin_required(view):
+    """Route decorator: requires a valid JWT whose user is an admin."""
+    @wraps(view)
+    def wrapper(*args, **kwargs):
+        token = _bearer_token()
+        payload = decode_access_token(token) if token else None
+        if not payload:
+            return jsonify({"error": "authentication required"}), 401
+        if not is_admin(payload.get("username")):
+            return jsonify({"error": "admin access required"}), 403
+        g.user = {"user_id": payload["sub"], "username": payload.get("username")}
+        return view(*args, **kwargs)
+
+    return wrapper

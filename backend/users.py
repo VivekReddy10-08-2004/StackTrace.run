@@ -64,6 +64,30 @@ def public_profile(username: str):
     return row
 
 
+def list_all(limit: int = 500):
+    """Admin view: every user joined with their profile."""
+    return db.query_all(
+        """
+        SELECT u.user_id, u.username, u.email, u.auth_provider, u.created_at,
+               p.current_ranking, p.tickets_solved, p.current_streak
+        FROM users u LEFT JOIN user_profiles p ON u.user_id = p.user_id
+        ORDER BY p.current_ranking DESC
+        LIMIT ?
+        """,
+        (limit,),
+    )
+
+
+def delete_by_username(username: str) -> bool:
+    """Admin op: remove a user and their profile. Returns True if one existed."""
+    row = db.query_one("SELECT user_id FROM users WHERE username = ?", (username,))
+    if not row:
+        return False
+    db.execute("DELETE FROM user_profiles WHERE user_id = ?", (row["user_id"],))
+    db.execute("DELETE FROM users WHERE user_id = ?", (row["user_id"],))
+    return True
+
+
 def leaderboard(limit: int = 20):
     rows = db.query_all(
         """

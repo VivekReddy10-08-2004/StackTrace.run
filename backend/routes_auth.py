@@ -15,7 +15,7 @@ import httpx
 from flask import Blueprint, g, jsonify, redirect, request
 
 import users
-from auth import (create_access_token, hash_password, login_required,
+from auth import (create_access_token, hash_password, is_admin, login_required,
                   verify_password)
 from config import settings
 
@@ -38,6 +38,7 @@ def _profile_payload(user):
             "username": user["username"],
             "email": user.get("email"),
             "auth_provider": user["auth_provider"],
+            "is_admin": is_admin(user["username"]),
         },
         "profile": profile,
     }

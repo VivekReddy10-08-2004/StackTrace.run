@@ -52,6 +52,40 @@
 
     renderLevels();
     renderLeaderboard(user.username);
+    renderAdmin(user.username);
+  }
+
+  async function renderAdmin(me) {
+    const panel = document.getElementById('admin-panel');
+    if (!panel) return;
+    if (!Auth.isAdmin()) { panel.classList.add('hidden'); return; }
+    panel.classList.remove('hidden');
+
+    const box = document.getElementById('admin-users');
+    box.innerHTML = '<div class="muted">loading…</div>';
+    let rows;
+    try { rows = await Auth.adminListUsers(); }
+    catch (e) { box.innerHTML = `<div class="muted">could not load users: ${escapeHtml(e.message)}</div>`; return; }
+
+    if (!rows.length) { box.innerHTML = '<div class="muted">no users</div>'; return; }
+    box.innerHTML = rows.map((u) => `
+      <div class="admin-row">
+        <span class="admin-name">@${escapeHtml(u.username)}</span>
+        <span class="admin-meta">${u.current_ranking ?? '—'} Elo · ${u.tickets_solved ?? 0} solved · ${escapeHtml(u.auth_provider || 'native')}</span>
+        ${u.username === me
+          ? '<span class="admin-you">you</span>'
+          : `<button class="admin-del" data-user="${escapeHtml(u.username)}">Delete</button>`}
+      </div>`).join('');
+
+    box.querySelectorAll('.admin-del').forEach((btn) => {
+      btn.onclick = async () => {
+        const username = btn.dataset.user;
+        if (!confirm(`Delete @${username}? This removes their account and progress.`)) return;
+        btn.disabled = true;
+        try { await Auth.adminDeleteUser(username); renderDashboard(); }
+        catch (e) { alert('Delete failed: ' + e.message); btn.disabled = false; }
+      };
+    });
   }
 
   function renderLevels() {

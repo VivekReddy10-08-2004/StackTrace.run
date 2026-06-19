@@ -70,6 +70,11 @@ class Settings:
         ).split(",") if o.strip()
     ]
 
+    # --- Admin: comma-separated usernames granted admin access ---
+    ADMIN_USERNAMES: list[str] = [
+        u.strip() for u in _get("ADMIN_USERNAMES", "").split(",") if u.strip()
+    ]
+
     @property
     def using_turso(self) -> bool:
         return bool(self.DATABASE_URL and self.DATABASE_URL.startswith(("libsql://", "https://")))

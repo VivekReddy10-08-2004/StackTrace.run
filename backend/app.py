@@ -14,6 +14,7 @@ from flask_cors import CORS
 
 import db
 from config import settings
+from routes_admin import bp as admin_bp
 from routes_auth import bp as auth_bp
 from routes_profile import bp as profile_bp
 
@@ -33,6 +34,7 @@ def create_app() -> Flask:
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(profile_bp)
+    app.register_blueprint(admin_bp)
 
     @app.get("/api/health")
     def health():
